@@ -5,13 +5,42 @@
 
     <ul>
         {% for listing in listings %}
-            <li>
-                Listing: {{ listing.id }}
-                 {{ listing.description }}
-                 {{listing.starting_bid}}
-                 {{listing.image_url}}
-                 {{listing.category}}
-            </li>
+            {% comment %} <div class="card">
+                <div class="card-header">
+                    {{listing.title}}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Current price: {{listing.current_price}}</h5>
+                    <p class="card-text">{{listing.description}}</p>
+                    <a href="#" class="btn btn-primary">Check Listing</a>
+                </div>
+            </div> {% endcomment %}
+
+            <div class="card mb-3">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                    <img src="{{listing.image_url}}" class="card-img" alt="..." style="height: 100%; object-fit: cover; width:15vw">
+                    </div>
+                    <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{listing.title}}</h5>
+                        <p class="card-text">{{listing.description}}</p>
+                        <p class="card-text"><small class="text-muted">creation time: {{listing.creation_time}}</small></p>
+                        <a href="#" class="btn btn-primary">Check Listing</a>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            {% comment %} <!-- Source -->
+            <div class="card flex-row"><img class="card-img-left example-card-img-responsive" src="/postboot/assets/img/thumbnail.jpg"/>
+            <div class="card-body">
+                <h4 class="card-title h5 h4-sm">Left image</h4>
+                <p class="card-text">Example text</p>
+            </div>
+            </div> {% endcomment %}
+
+
         {% endfor %}
     </ul>
 {% endblock %}
