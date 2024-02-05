@@ -9,6 +9,8 @@ from .models import Listing
 
 
 def index(request):
+    print(request.user)
+    print(request.user.id)
     return render(request, "auctions/index.html", {
         'listings': Listing.objects.all()
     })
@@ -18,6 +20,21 @@ def listing(request, listing_id):
     return render(request, 'auctions/listing.html', {
         'listing': listing
     })
+
+def create_listing(request):
+    if request.method == 'GET':
+        return render(request, 'auctions/create_listing.html' )
+    elif request.method == 'POST':
+        new_listing = Listing()
+        new_listing.title = request.POST.get('title')
+        new_listing.description = request.POST.get('description')
+        new_listing.current_price = request.POST.get('current_price')
+        new_listing.image_url = request.POST.get('image_url')
+        new_listing.category = request.POST.get('category')
+        
+        new_listing.save()
+
+        return HttpResponseRedirect(reverse('listing', args=(new_listing.id,)))
 
 def login_view(request):
     if request.method == "POST":
