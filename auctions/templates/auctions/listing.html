@@ -1,0 +1,20 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Listing: {{listing.title}}</h2>
+
+    {% comment %} photo {% endcomment %}
+    <img src="{{listing.image_url}}" alt="" class="img-fluid"/>
+    <p>{{listing.description}}</p>
+    <h3>${{listing.current_price}}</h3>
+
+    {% comment %} bid info + placing a bid {% endcomment %}
+
+    <div>
+        <h3>Details</h3>
+        <ul>
+            <li>Listed by: blah</li>
+            <li>Category: {{listing.category}}</li>
+        </ul>
+    </div>
+{% endblock %}

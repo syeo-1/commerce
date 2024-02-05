@@ -26,7 +26,7 @@
                         <h5 class="card-title">{{listing.title}}</h5>
                         <p class="card-text">{{listing.description}}</p>
                         <p class="card-text"><small class="text-muted">creation time: {{listing.creation_time}}</small></p>
-                        <a href="#" class="btn btn-primary">Check Listing</a>
+                        <a href="{% url 'listing' listing.id %}" class="btn btn-primary">Check Listing</a>
                     </div>
                     </div>
                 </div>
