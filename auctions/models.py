@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 class User(AbstractUser):
-    pass
+    listings = models.ManyToManyField('Listing', blank=True, related_name='watchlist')
 
 class Listing(models.Model):
     # title
@@ -19,6 +19,7 @@ class Listing(models.Model):
     image_url = models.CharField(max_length=512)
     category = models.CharField(max_length=64)
     creation_time = models.DateTimeField(auto_now_add=True)
+    associated_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='listing_creator')
 
 
 # class Bid(models.Model):
