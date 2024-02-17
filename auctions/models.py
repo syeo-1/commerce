@@ -21,6 +21,11 @@ class Listing(models.Model):
     creation_time = models.DateTimeField(auto_now_add=True)
     associated_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='listing_creator')
 
+class Bid(models.Model):
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    bid_placer = models.ForeignKey(User, on_delete=models.CASCADE)
+    associated_listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+
 
 # class Bid(models.Model):
 #     bid_price = models.DecimalField(max_digits=10, decimal_places=2)
