@@ -10,16 +10,18 @@
 
     {% comment %} bid info + placing a bid {% endcomment %}
     {% comment %} watchlist {% endcomment %}
-    {% if in_watchlist %}
-        <form method="post" action="{% url 'remove_from_watchlist' listing.id %}">
-        {% csrf_token %}
-            <button type="submit" class="btn btn-primary">Remove from Watchlist</button>
-        </form>
-    {% else %}
-        <form method="post" action="{% url 'add_to_watchlist' listing.id %}">
-        {% csrf_token %}
-            <button type="submit" class="btn btn-primary">Add to Watchlist</button>
-        </form>
+    {% if user_logged_in %}
+        {% if in_watchlist %}
+            <form method="post" action="{% url 'remove_from_watchlist' listing.id %}">
+            {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Remove from Watchlist</button>
+            </form>
+        {% else %}
+            <form method="post" action="{% url 'add_to_watchlist' listing.id %}">
+            {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Add to Watchlist</button>
+            </form>
+        {% endif %}
     {% endif %}
 
 

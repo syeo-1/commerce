@@ -20,25 +20,38 @@ def listing(request, listing_id):
     # if the listing isn't part of their watchlist, should have a bool which is passed to the template
     # in the template, can then render the remove or add to watchlist button based on that info
 
+    # TODO: need code for when user isn't logged in they can stil check out a listing!!!
+
     # check if the listing is in the current user's watchlist
-    user = User.objects.get(username=request.user)
-    print(request)
-    print(f'username is {user}')
-    in_user_watchlist = False
-    user_watchlist = [listing for listing in user.listings.all()]
+    logged_in = request.user.is_authenticated
+    if logged_in:
+        print(request.user)
+        user = User.objects.get(username=request.user)
+        print(request)
+        print(f'username is {user}')
+        in_user_watchlist = False
+        user_watchlist = [listing for listing in user.listings.all()]
 
-    if listing in user_watchlist:
-        in_user_watchlist = True
-    # in_user_watchlist = True
-    print(listing)
-    print(user_watchlist)
+        if listing in user_watchlist:
+            in_user_watchlist = True
+        # in_user_watchlist = True
+        print(listing)
+        print(user_watchlist)
+        
+        print(f'in listing: {in_user_watchlist}')
+
+        return render(request, 'auctions/listing.html', {
+            'listing': listing,
+            'in_watchlist': in_user_watchlist,
+            'user_logged_in': logged_in
+        })
     
-    print(f'in listing: {in_user_watchlist}')
+    else:
+        return render(request, 'auctions/listing.html', {
+            'listing': listing,
+            'user_logged_in': logged_in
+        })
 
-    return render(request, 'auctions/listing.html', {
-        'listing': listing,
-        'in_watchlist': in_user_watchlist
-    })
 
 def create_listing(request):
     if request.method == 'GET':
