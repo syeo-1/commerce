@@ -26,8 +26,8 @@
         <form method="post" action="{% url 'bid' listing.id %}">
             {% csrf_token %}
             <p>Place a bid</p>
-            <input type="number" step=".01">
-            <input type="submit" value="Place Bid">
+            <input type="number" step=".01" name="new_bid">
+            <input type="submit" value="Place Bid" >
         </form>
     {% endif %}
 

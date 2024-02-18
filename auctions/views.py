@@ -60,6 +60,14 @@ def bid(request, listing_id):
 
     # should have some kind of form validation so that 
     listing = Listing.objects.get(id=listing_id)
+    new_bid = float(request.POST.get('new_bid'))
+    print(f'new_bid value: {new_bid}')
+
+    # check if new bid is greater than the current price or bid
+    if new_bid > listing.current_price:
+        listing.current_price = new_bid
+        listing.save()
+
     print('in bid view!')
     logged_in = request.user.is_authenticated
 
