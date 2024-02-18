@@ -52,6 +52,23 @@ def listing(request, listing_id):
             'user_logged_in': logged_in
         })
 
+def bid(request, listing_id):
+    # get the listing to change the price for
+    # check if the bid price is greater than the one on the listing
+    # if it is, change the current price to be the bid price
+    # otherwise, say that the price is invalid, or give some kind of error
+
+    # should have some kind of form validation so that 
+    listing = Listing.objects.get(id=listing_id)
+    print('in bid view!')
+    logged_in = request.user.is_authenticated
+
+    return render(request, 'auctions/listing.html', {
+        'listing': listing,
+        'listing_id': listing_id,
+        'user_logged_in': logged_in
+    })
+
 
 def create_listing(request):
     if request.method == 'GET':
