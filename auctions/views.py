@@ -92,7 +92,8 @@ def close_listing(request, listing_id):
     #     'bid_winner': bid_winner
     # })
     # return HttpResponseRedirect(reverse('index'))
-    return HttpResponseRedirect(reverse('index'))
+    # return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('listing', args=(listing.id,)))
 
 def bid(request, listing_id):
     # get the listing to change the price for
@@ -127,7 +128,8 @@ def bid(request, listing_id):
     #     'listing_id': listing_id,
     #     'user_logged_in': logged_in
     # })
-    return HttpResponseRedirect(reverse('index'))
+    # return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('listing', args=(listing.id,)))
 
 def add_comment(request, listing_id):
     # get the listing id
