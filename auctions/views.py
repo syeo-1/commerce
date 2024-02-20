@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.db.models import Max
 
 from .models import User
-from .models import Listing, Bid
+from .models import Listing, Bid, Comment
 
 def index(request):
     # print(request.user)
@@ -18,6 +18,7 @@ def index(request):
 
 def listing(request, listing_id):
     listing = Listing.objects.get(id=listing_id)
+    comments = Comment.objects.filter(listing=listing)
     # should also be doing a check to see if the listing is part of the user's watchlist
     # if the listing isn't part of their watchlist, should have a bool which is passed to the template
     # in the template, can then render the remove or add to watchlist button based on that info
@@ -54,7 +55,8 @@ def listing(request, listing_id):
                 'in_watchlist': in_user_watchlist,
                 'user_logged_in': logged_in,
                 'display_close_listing': user == listing_creator,
-                'bid_winner': bid_winner
+                'bid_winner': bid_winner,
+                'comments': comments
             })
         else:
             return render(request, 'auctions/listing.html', {
@@ -62,12 +64,14 @@ def listing(request, listing_id):
                 'in_watchlist': in_user_watchlist,
                 'user_logged_in': logged_in,
                 'display_close_listing': user == listing_creator,
+                'comments': comments
             })
     
     else:
         return render(request, 'auctions/listing.html', {
             'listing': listing,
-            'user_logged_in': logged_in
+            'user_logged_in': logged_in,
+            'comments': comments
         })
 
 def close_listing(request, listing_id):
@@ -124,6 +128,12 @@ def bid(request, listing_id):
     #     'user_logged_in': logged_in
     # })
     return HttpResponseRedirect(reverse('index'))
+
+def add_comment(request, listing_id):
+    # get the listing id
+    # get all comments with that listing id
+    # return all those comments and display on the listing template!
+    pass
 
 
 def create_listing(request):
