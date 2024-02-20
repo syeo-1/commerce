@@ -33,5 +33,7 @@ class Bid(models.Model):
 #     # the bid should be related to a specific listing
 #     # specifically, should have details for the listing you're bidding on 
 
-# class Comment(models.Model):
-#     comment = models.TextField()
+class Comment(models.Model):
+    comment = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
