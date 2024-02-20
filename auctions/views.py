@@ -81,13 +81,14 @@ def close_listing(request, listing_id):
     print(winning_bid)
     bid_winner = winning_bid.bid_placer
 
-    return render(request, 'auctions/listing.html', {
-        'listing': listing,
-        'user_logged_in': request.user.is_authenticated,
-        'display_close_listing': False,
-        'bid_winner': bid_winner
-    })
+    # return render(request, 'auctions/listing.html', {
+    #     'listing': listing,
+    #     'user_logged_in': request.user.is_authenticated,
+    #     'display_close_listing': False,
+    #     'bid_winner': bid_winner
+    # })
     # return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('index'))
 
 def bid(request, listing_id):
     # get the listing to change the price for
@@ -117,11 +118,12 @@ def bid(request, listing_id):
     print('in bid view!')
     logged_in = request.user.is_authenticated
 
-    return render(request, 'auctions/listing.html', {
-        'listing': listing,
-        'listing_id': listing_id,
-        'user_logged_in': logged_in
-    })
+    # return render(request, 'auctions/listing.html', {
+    #     'listing': listing,
+    #     'listing_id': listing_id,
+    #     'user_logged_in': logged_in
+    # })
+    return HttpResponseRedirect(reverse('index'))
 
 
 def create_listing(request):
