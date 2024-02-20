@@ -24,6 +24,12 @@
         {% endif %}
 
         {% if listing.is_active %}
+            {% if display_close_listing %}
+                <form method="post" action="{% url 'close_listing' listing.id %}">
+                {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Close Listing</button>
+                </form>
+            {% endif %}
             <form method="post" action="{% url 'bid' listing.id %}">
                 {% csrf_token %}
                 <p>Place a bid</p>

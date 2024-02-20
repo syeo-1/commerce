@@ -37,13 +37,17 @@ def listing(request, listing_id):
         # in_user_watchlist = True
         print(listing)
         print(user_watchlist)
+
+        listing_creator = listing.associated_user
+        print(listing_creator)
         
         print(f'in listing: {in_user_watchlist}')
 
         return render(request, 'auctions/listing.html', {
             'listing': listing,
             'in_watchlist': in_user_watchlist,
-            'user_logged_in': logged_in
+            'user_logged_in': logged_in,
+            'display_close_listing': user == listing_creator
         })
     
     else:
@@ -51,6 +55,19 @@ def listing(request, listing_id):
             'listing': listing,
             'user_logged_in': logged_in
         })
+
+def close_listing(request, listing_id):
+    # change the is_active value of the listing to be false
+    listing = Listing.objects.get(id=listing_id)
+    listing.is_active = False
+    listing.save()  
+
+    # return render(request, 'auctions/listing.html', {
+    #     'listing': listing,
+    #     'user_logged_in': request.user.is_authenticated,
+    #     'display_close_listing': False
+    # })
+    return HttpResponseRedirect(reverse('index'))
 
 def bid(request, listing_id):
     # get the listing to change the price for
