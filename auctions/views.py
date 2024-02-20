@@ -133,9 +133,24 @@ def bid(request, listing_id):
 
 def add_comment(request, listing_id):
     # get the listing id
-    # get all comments with that listing id
+    listing = Listing.objects.get(id=listing_id)
+
+    # get the user
+    user = User.objects.get(username=request.user)
+
+    # get the comment text
+
+    # create a new comment
+    comment = Comment()
+    comment.listing = listing
+    comment.user = user
+    comment.comment = "this is just a test"
+
+    comment.save()
+
     # return all those comments and display on the listing template!
-    pass
+    return HttpResponseRedirect(reverse('listing', args=(listing.id,)))
+    
 
 
 def create_listing(request):

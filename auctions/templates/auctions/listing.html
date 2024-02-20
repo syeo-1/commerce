@@ -51,12 +51,12 @@
         </ul>
     </div>
     <div>
-        <h2>Comments</h2>
-        {% comment %} <form action="{% url 'add_comment' listing.id%}">
+        <form action="{% url 'add_comment' listing.id%}">
             {% csrf_token %}
             <textarea name="" id="" cols="30" rows="10">Enter Comment Here</textarea>
             <input type="submit" value="Add Comment">
-        </form> {% endcomment %}
+        </form>
+        <h2>Comments</h2>
         {% for comment in comments %}
             <div class="card">
                 <div class="card-header">
