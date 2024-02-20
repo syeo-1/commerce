@@ -88,7 +88,7 @@ def create_listing(request):
         new_listing.current_price = request.POST.get('current_price')
         new_listing.image_url = request.POST.get('image_url')
         new_listing.category = request.POST.get('category')
-        # new_listing.associated_user = request.user
+        new_listing.associated_user = request.user
         
         new_listing.save()
 
