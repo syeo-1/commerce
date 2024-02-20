@@ -4,6 +4,7 @@ from datetime import datetime
 
 
 class User(AbstractUser):
+    # lazy initialization for Listing since normally should be run top to bottom
     listings = models.ManyToManyField('Listing', blank=True, related_name='watchlist')
 
 class Listing(models.Model):
