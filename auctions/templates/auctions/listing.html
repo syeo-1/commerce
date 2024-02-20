@@ -23,12 +23,14 @@
             </form>
         {% endif %}
 
-        <form method="post" action="{% url 'bid' listing.id %}">
-            {% csrf_token %}
-            <p>Place a bid</p>
-            <input type="number" step=".01" name="new_bid">
-            <input type="submit" value="Place Bid" >
-        </form>
+        {% if listing.is_active %}
+            <form method="post" action="{% url 'bid' listing.id %}">
+                {% csrf_token %}
+                <p>Place a bid</p>
+                <input type="number" step=".01" name="new_bid">
+                <input type="submit" value="Place Bid" >
+            </form>
+        {% endif %}
     {% endif %}
 
 
