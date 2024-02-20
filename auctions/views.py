@@ -4,8 +4,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
+from django.db.models import Max
+
 from .models import User
-from .models import Listing
+from .models import Listing, Bid
 
 def index(request):
     # print(request.user)
@@ -42,13 +44,25 @@ def listing(request, listing_id):
         print(listing_creator)
         
         print(f'in listing: {in_user_watchlist}')
+        
+        if not listing.is_active:
+            winning_bid = Bid.objects.filter(associated_listing=listing).order_by('-price').first()
+            bid_winner = winning_bid.bid_placer
 
-        return render(request, 'auctions/listing.html', {
-            'listing': listing,
-            'in_watchlist': in_user_watchlist,
-            'user_logged_in': logged_in,
-            'display_close_listing': user == listing_creator
-        })
+            return render(request, 'auctions/listing.html', {
+                'listing': listing,
+                'in_watchlist': in_user_watchlist,
+                'user_logged_in': logged_in,
+                'display_close_listing': user == listing_creator,
+                'bid_winner': bid_winner
+            })
+        else:
+            return render(request, 'auctions/listing.html', {
+                'listing': listing,
+                'in_watchlist': in_user_watchlist,
+                'user_logged_in': logged_in,
+                'display_close_listing': user == listing_creator,
+            })
     
     else:
         return render(request, 'auctions/listing.html', {
@@ -62,12 +76,18 @@ def close_listing(request, listing_id):
     listing.is_active = False
     listing.save()  
 
-    # return render(request, 'auctions/listing.html', {
-    #     'listing': listing,
-    #     'user_logged_in': request.user.is_authenticated,
-    #     'display_close_listing': False
-    # })
-    return HttpResponseRedirect(reverse('index'))
+    # display the winner of the auction!
+    winning_bid = Bid.objects.filter(associated_listing=listing).order_by('-price').first()
+    print(winning_bid)
+    bid_winner = winning_bid.bid_placer
+
+    return render(request, 'auctions/listing.html', {
+        'listing': listing,
+        'user_logged_in': request.user.is_authenticated,
+        'display_close_listing': False,
+        'bid_winner': bid_winner
+    })
+    # return HttpResponseRedirect(reverse('index'))
 
 def bid(request, listing_id):
     # get the listing to change the price for
@@ -84,6 +104,15 @@ def bid(request, listing_id):
     if new_bid > listing.current_price:
         listing.current_price = new_bid
         listing.save()
+    
+    # save the bid data!
+    bid = Bid()
+    bid.price = new_bid
+    bid.bid_placer = User.objects.get(username=request.user)
+    bid.associated_listing = listing
+    
+    bid.save()
+    
 
     print('in bid view!')
     logged_in = request.user.is_authenticated
