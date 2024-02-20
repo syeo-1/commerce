@@ -1,0 +1,13 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Categories</h2>
+
+    <ul>
+        {% for category_info in categories %}
+            <li>{{ category_info.category }}</li>
+        {% empty %}
+            <li>No available Categories to Display</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

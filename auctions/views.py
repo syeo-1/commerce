@@ -221,6 +221,12 @@ def login_view(request):
         return render(request, "auctions/login.html")
 
 
+def categories(request):
+    return render(request, "auctions/categories.html", {
+        'categories': Listing.objects.all().values('category').distinct()
+    })
+
+
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
