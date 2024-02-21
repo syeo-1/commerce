@@ -5,7 +5,7 @@
 
     <ul>
         {% for category_info in categories %}
-            <li>{{ category_info.category }}</li>
+            <li><a href="{% url 'display_category' category_info.category %}">{{ category_info.category }}</a></li>
         {% empty %}
             <li>No available Categories to Display</li>
         {% endfor %}

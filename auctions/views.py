@@ -226,6 +226,15 @@ def categories(request):
         'categories': Listing.objects.all().values('category').distinct()
     })
 
+def display_category(request, category):
+    # get all listings with the category
+    category_listings = Listing.objects.all()
+    print(f'category: {category}')
+
+    return render(request, "auctions/category.html", {
+        'listings': category_listings,
+        'category': 'TEST'
+    })
 
 def logout_view(request):
     logout(request)
