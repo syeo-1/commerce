@@ -10,8 +10,6 @@ from .models import User
 from .models import Listing, Bid, Comment
 
 def index(request):
-    # print(request.user)
-    # print(request.user.id)
     return render(request, "auctions/index.html", {
         'listings': Listing.objects.all()
     })
@@ -22,8 +20,6 @@ def listing(request, listing_id):
     # should also be doing a check to see if the listing is part of the user's watchlist
     # if the listing isn't part of their watchlist, should have a bool which is passed to the template
     # in the template, can then render the remove or add to watchlist button based on that info
-
-    # TODO: need code for when user isn't logged in they can stil check out a listing!!!
 
     # check if the listing is in the current user's watchlist
     logged_in = request.user.is_authenticated
@@ -83,16 +79,7 @@ def close_listing(request, listing_id):
     # display the winner of the auction!
     winning_bid = Bid.objects.filter(associated_listing=listing).order_by('-price').first()
     print(winning_bid)
-    bid_winner = winning_bid.bid_placer
 
-    # return render(request, 'auctions/listing.html', {
-    #     'listing': listing,
-    #     'user_logged_in': request.user.is_authenticated,
-    #     'display_close_listing': False,
-    #     'bid_winner': bid_winner
-    # })
-    # return HttpResponseRedirect(reverse('index'))
-    # return HttpResponseRedirect(reverse('index'))
     return HttpResponseRedirect(reverse('listing', args=(listing.id,)))
 
 def bid(request, listing_id):
@@ -119,16 +106,6 @@ def bid(request, listing_id):
     
     bid.save()
     
-
-    print('in bid view!')
-    logged_in = request.user.is_authenticated
-
-    # return render(request, 'auctions/listing.html', {
-    #     'listing': listing,
-    #     'listing_id': listing_id,
-    #     'user_logged_in': logged_in
-    # })
-    # return HttpResponseRedirect(reverse('index'))
     return HttpResponseRedirect(reverse('listing', args=(listing.id,)))
 
 def add_comment(request, listing_id):
@@ -137,8 +114,6 @@ def add_comment(request, listing_id):
 
         # get the user
         user = User.objects.get(username=request.user)
-
-        # get the comment text
 
         # create a new comment
         new_comment = Comment()
@@ -176,10 +151,6 @@ def watchlist(request):
     # get all listing associated with the user
     watchlist_listings = [listing for listing in user.listings.all()]
 
-    # return all associated listings
-    # return render(request, 'auctions/watchlist.html', {
-    #     'watchlist': user.listings.all()
-    # })
     return render(request, "auctions/watchlist.html", {
         'listings': watchlist_listings
     })
