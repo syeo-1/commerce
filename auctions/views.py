@@ -228,12 +228,12 @@ def categories(request):
 
 def display_category(request, category):
     # get all listings with the category
-    category_listings = Listing.objects.all()
+    category_listings = Listing.objects.all().filter(category=category)
     print(f'category: {category}')
 
     return render(request, "auctions/category.html", {
         'listings': category_listings,
-        'category': 'TEST'
+        'category': category
     })
 
 def logout_view(request):
